@@ -1,0 +1,323 @@
+﻿
+/*
+    Ship HUD
+*/
+
+#ShipHUD
+{
+    position: absolute;
+    bottom: 0px;
+    height: 410px;
+    width: 690px;
+    left: 50%;
+    margin-left: -345px;
+    background-image: url(img/ShipHUD.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.75;
+}
+
+    #ShipHUD *
+    {
+        position: absolute;
+    }
+
+#EngineBar, #LaserBar, #ShieldBar
+{
+    left: 77.5%;
+    top: 18.5%;
+    height: 20.5%;
+    width: 0.6%;
+    background-color: #259DFF;
+}
+
+#LaserBar
+{
+    left: 82.5%;
+    background-color: #FFBE3C;
+}
+
+#ShieldBar
+{
+    left: 88.5%;
+    background-color: #4FF52F;
+}
+
+#SpeedLabel
+{
+    left: 57.2%;
+    top: 82.4%;
+    width: 9.9%;
+    height: 7.8%;
+    text-align: center;
+    font-size: 175%;
+}
+
+#LaserBar1, #LaserBar2
+{
+    left: 16.1%;
+    top: 5.2%;
+    width: 18%;
+    height: 2.9%;
+    background-color: #E55926;
+}
+
+#LaserBar2
+{
+    left: 63.3%;
+}
+
+#ThrottleBar
+{
+    left: 32.7%;
+    top: 87.5%;
+    width: 22%;
+    height: 1.5%;
+    background-color: #FFF;
+}
+
+#ShieldSwitch
+{
+    left: 15.4%;
+    top: 76.7%;
+    width: 2%;
+    height: 2.9%;
+    background-color: #FFF;
+}
+
+#left-hud, #right-hud
+{
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#left-hud
+{
+    left: 0px;
+    background-image: url(img/ben-hud/left-gui.png);
+    width: 31.39vh;
+}
+
+#right-hud
+{
+    background-image: url(img/ben-hud/right-gui.png);
+    right: 0px;
+    width: 46.3vh;
+    background-position: right;
+}
+
+#laser-hud
+{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    width: 508px;
+    height: 74px;
+    margin-left: -254px;
+    background-image: url(img/ben-hud/gui-lasers.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.front-shield-gauge-container, .rear-shield-gauge-container, .front-armor-gauge-container, .rear-armor-gauge-container
+{
+    left: 7.7%;
+    top: 83%;
+    width: 12.1%;
+    height: 8%;
+}
+
+.rear-shield-gauge-container
+{
+    left: 19.6%;
+    top: 89.5%;
+}
+
+.front-armor-gauge-container
+{
+    left: 19%;
+    top: 83.2%;
+}
+
+.rear-armor-gauge-container
+{
+    left: 30.9%;
+    top: 89.7%;
+}
+
+.front-shield-gauge, .rear-shield-gauge, .front-armor-gauge, .rear-armor-gauge
+{
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/ben-hud/gauge-shield.png);
+    background-position-y: 100%;
+    background-size: 100% auto;
+}
+
+.front-armor-gauge, .rear-armor-gauge
+{
+    background-image: url(img/ben-hud/gauge-armor.png);
+}
+
+
+#new-gui *
+{
+    position: absolute;
+    background-repeat: no-repeat;
+}
+
+#new-gui .speed
+{
+    text-align: center;
+    font-family: Agency-Regular;
+    left: 13%;
+    top: 13.5%;
+    width: 25.1%;
+    height: 3.9%;
+}
+
+#new-gui .throttle-container
+{
+    left: 8.4%;
+    top: 28.6%;
+    width: 17.5%;
+    height: 21.8%;
+}
+
+#new-gui .throttle
+{
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/ben-hud/gauge-throttle.png);
+    background-position-y: 100%;
+    background-size: 100% auto;
+}
+
+#new-gui .front-radar
+{
+    left: 15.2%;
+    top: 59.6%;
+    width: 43.2%;
+    height: 20%;
+}
+
+    #new-gui .front-radar .hit
+    {
+        background-image: url(img/ben-hud/gauge-radar-hit.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+#new-gui .rear-radar
+{
+    left: 15.2%;
+    top: 81.2%;
+    width: 26%;
+    height: 12%;
+}
+
+#new-gui .shield-bg-container
+{
+    left: 89.4%;
+    top: 71.7%;
+    width: 5.8%;
+    height: 7.7%;
+}
+
+#new-gui .shield-output-bg
+{
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/ben-hud/gauge-gridoutput-shield-empty.png);
+    background-position-y: 100%;
+    background-size: 100% auto;
+}
+
+#new-gui .shield-output-full
+{
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/ben-hud/gauge-gridoutput-shield-full.png);
+    background-position-y: 100%;
+    background-size: 100% auto;
+}
+
+#new-gui .engine-output-container
+{
+    left: 76.7%;
+    top: 83.2%;
+    width: 19.1%;
+    height: 8.9%;
+}
+
+#new-gui .engine-output-full
+{
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/ben-hud/gauge-output-engine.png);
+    background-position-y: 100%;
+    background-size: 100% auto;
+}
+
+#new-gui .laser-output-container
+{
+    left: 93%;
+    top: 49.3%;
+    width: 3.1%;
+    height: 18.6%;
+}
+
+#new-gui .laser-output-full
+{
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/ben-hud/gauge-output-laser.png);
+    background-position-y: 100%;
+    background-size: 100% auto;
+}
+
+#new-gui .right-laser-gauge-container, #new-gui .left-laser-gauge-container
+{
+    left: 65.6%;
+    top: 55.1%;
+    width: 31.1%;
+    height: 14.2%;
+}
+
+#new-gui .left-laser-gauge-container
+{
+    left: 3.5%;
+}
+
+#new-gui .right-laser-gauge, #new-gui .left-laser-gauge
+{
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/ben-hud/gauge-laser-right.png);
+    background-position-x: 100%;
+    background-size: auto 100%;
+}
+
+#new-gui .left-laser-gauge
+{
+    background-image: url(img/ben-hud/gauge-laser-left.png);
+    background-position-x: 0%;
+}

@@ -1,0 +1,386 @@
+﻿<!--
+Copyright (c) 2011 Taylor Clark.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta id="viewport" name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Broken Portal</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="Reset.css" />
+    <link rel="stylesheet" type="text/css" href="Main.css" />
+    <link rel="stylesheet" type="text/css" href="ship-hud.css" />
+    <link rel="stylesheet" type="text/css" href="css/mining-game.css" />
+
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="Detector.js"></script>
+    <script type="text/javascript" src="three.min.js"></script>
+    <script type="text/javascript" src="js/Detector.js"></script>
+    <script type="text/javascript" src="js/stats.min.js"></script>
+    <script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
+
+    <!-- <script type="text/javascript" src="js/Packed-min.js"></script> -->
+    
+    <script type="text/javascript" src="js/Vector2.js"></script>
+    <script type="text/javascript" src="js/Util.js"></script>
+    <script type="text/javascript" src="js/PageInput.js"></script>
+    <script type="text/javascript" src="js/Joypad.js"></script>
+    <script type="text/javascript" src="js/Portal.js"></script>
+    <script type="text/javascript" src="js/Laser.js"></script>
+    <script type="text/javascript" src="js/BuildManager.js"></script>
+    <script type="text/javascript" src="js/AsteroidField.js"></script>
+    <script type="text/javascript" src="js/AreaDescriptor.js"></script>
+    <script type="text/javascript" src="js/raphael.js"></script>
+    <script type="text/javascript" src="js/CockpitUI.js"></script>
+    <script type="text/javascript" src="js/AIShipController.js"></script>
+    <script type="text/javascript" src="js/ShipWeapon.js"></script>
+    <script type="text/javascript" src="js/Spaceship.js"></script>
+    <script type="text/javascript" src="js/Hoop.js"></script>
+    <script type="text/javascript" src="js/Mission.js"></script>
+    <script type="text/javascript" src="js/XhtmlWingGame.js"></script>
+    <script type="text/javascript" src="js/PlayerInfo.js"></script>
+    <script type="text/javascript" src="js/Main.js"></script>
+        
+    <script type="text/javascript" src="js/core.js"></script>
+    <script type="text/javascript" src="js/GameConfig.js"></script>
+    <script type="text/javascript" src="js/GameBoard.js"></script>
+
+    <script type="text/javascript" src="js/jquery-ui-git.js"></script>
+
+
+    <script type="text/javascript">
+        function OnPageReady()
+        {
+            // If the browser doesn't support WebGL then bail
+            if( !Detector.webgl )
+            {
+                document.getElementById( "GuiOverlayPanel" ).style.display = "none";
+                Detector.addGetWebGLMessage();
+                return;
+            }
+
+            TestPAD.PortraitResize.Init();
+
+            var tileImagePath = "img/mining/";
+
+            var gb = new TestPAD.GameBoard();
+            gb.RegisterTileType( 1, tileImagePath + "dark-brown.png" );
+            gb.RegisterTileType( 2, tileImagePath + "gray.png" );
+            gb.RegisterTileType( 3, tileImagePath + "light-brown.png" );
+            gb.RegisterTileType( 4, tileImagePath + "metal.jpg" );
+            gb.RegisterTileType( 5, tileImagePath + "orange.png" );
+
+            gb.Init( "GameBoard", null );
+
+            Main.OnLoad();
+        }
+    </script>
+    <script type="text/javascript">
+        /*
+        var _gaq = _gaq || [];
+        _gaq.push( ['_setAccount', 'UA-20164682-2'] );
+        _gaq.push( ['_trackPageview'] );
+
+        (function ()
+        {
+            var ga = document.createElement( 'script' ); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ( 'https:' == document.location.protocol ? 'https://ssl' : 'http://www' ) + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName( 'script' )[0]; s.parentNode.insertBefore( ga, s );
+        } )();
+        */
+    </script>
+</head>
+<body onload="setTimeout( OnPageReady, 10);">
+    <canvas id="GameViewCanvas"></canvas>
+
+    <!-- Sounds used by the game -->
+    <audio id="LaserSound" preload="preload" autobuffer>
+        <source src="sfx/Laser.ogg" />
+        <source src="sfx/Laser.wav" />
+    </audio>
+    <audio id="LaserSound2" preload="preload" autobuffer>
+        <source src="sfx/Laser.ogg" />
+        <source src="sfx/Laser.wav" />
+    </audio>
+    <audio id="XWingLaserSound" preload="preload" autobuffer>
+        <source src="sfx/XWingLaser.ogg" />
+        <source src="sfx/XWingLaser.wav" />
+    </audio>
+    <audio id="XWingLaserSound2" preload="preload" autobuffer>
+        <source src="sfx/XWingLaser.ogg" />
+        <source src="sfx/XWingLaser.wav" />
+    </audio>
+    <audio id="PlayerHitSound" preload="preload" autobuffer>
+        <source src="sfx/PlayerHullHit.ogg" />
+        <source src="sfx/PlayerHullHit.wav" />
+    </audio>
+    <audio id="EnemyHitSound" preload="preload" autobuffer>
+        <source src="sfx/EnemyHullHit.ogg" />
+        <source src="sfx/EnemyHullHit.wav" />
+    </audio>
+    <audio id="ShipExplodeSound" preload="preload" autobuffer>
+        <source src="sfx/Explode.ogg" />
+        <source src="sfx/Explode.wav" />
+    </audio>
+    <audio id="HoopClearedSound" preload="preload" autobuffer>
+        <source src="sfx/HoopCleared.ogg" />
+        <source src="sfx/HoopCleared.wav" />
+    </audio>
+
+    <!-- UI elements used by the game -->
+    <div id="GuiOverlayPanel" class="FullScreen" style="z-index:10; display:none;">
+        <div id="Crosshairs2"></div>
+        <div id="FrontRadar" class="Radar"></div>
+        <div id="RearRadar" class="Radar"></div>
+        <div id="HPBar" class="HPBarBorder"></div>
+        <div id="ShipHUD">
+            <div id="EngineBar"></div>
+            <div id="LaserBar"></div>
+            <div id="ShieldBar"></div>
+
+            <div id="ThrottleBar"></div>
+            <div id="SpeedLabel"></div>
+
+            <div id="LaserBar1"></div>
+            <div id="LaserBar2"></div>
+
+            <div id="ShieldSwitch"></div>
+        </div>
+    </div>
+
+    <div id="new-gui">
+        <div id="Crosshairs"></div>
+        <div id="left-hud">
+            <div class="speed"></div>
+            <div class="front-shield-gauge-container">
+                <div class="front-shield-gauge"></div>
+            </div>
+            <div class="rear-shield-gauge-container">
+                <div class="rear-shield-gauge"></div>
+            </div>
+
+            <div class="front-armor-gauge-container">
+                <div class="front-armor-gauge"></div>
+            </div>
+            <div class="rear-armor-gauge-container">
+                <div class="rear-armor-gauge"></div>
+            </div>
+
+            <div class="throttle-container">
+                <div class="throttle"></div>
+            </div>
+        </div>
+        <div id="right-hud">
+            <div class="front-radar"></div>
+            <div class="rear-radar"></div>
+            <div class="shield-bg-container">
+                <div class="shield-output-bg"></div>
+                <div class="shield-output-full"></div>
+            </div>
+            <div class="engine-output-container">
+                <div class="engine-output-full"></div>
+            </div>
+            <div class="laser-output-container">
+                <div class="laser-output-full"></div>
+            </div>
+        </div>
+        <div id="laser-hud">
+            <div class="left-laser-gauge-container">
+                <div class="left-laser-gauge"></div>
+            </div>
+            <div class="right-laser-gauge-container">
+                <div class="right-laser-gauge"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Logo" class="FullScreen" style="display:none;">
+    </div>
+
+    <!-- Displays the mission result (success or failure) and the next/retry buttons -->
+    <div id="MissionOverPanel" class="FullScreen" style="display:none;z-index:20;">
+        <div class="Overlay"></div>
+        <div class="InfoPanel">
+            <span id="MissionOverResultLabel" class="BigHeaderLabel"></span><br />
+            <br />
+            <input id="MissionOverButton" type="button" value="Next Mission" onclick="Main.OnNextMissionClick();" />
+            <input id="MissionWasSuccessField" type="hidden" value="0" />
+        </div>
+    </div>
+
+    <!-- Displays the instructions for the current mission -->
+    <div id="MissionInfoPanel" class="FullScreen" style="display:none;z-index:20;">
+        <div class="Overlay"></div>
+        <div class="InfoPanel" style="display:block;">
+            <span id="MissionTitleLabel" class="BigHeaderLabel"></span><br />
+            <div id="MissionDescLabel"></div>
+
+            <br />
+            <input type="button" value="Start Mission" onclick="Main.OnStartMissionClick();" />
+            <br />
+            <br />
+            <div id="Missions">
+                <table style="margin:0 auto;">
+                    <tr id="CurrentMissionsRow"></tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="SimpleBordered button" onclick="Main.onMMOClick();">
+                                <span style="text-decoration:underline;">Galaxy Adventure</span><br>
+                                <br>
+                                Explore the galaxy in this MMO
+                            </div>
+                        </td>
+                        <td colspan="2">
+                            <div class="SimpleBordered button" onclick="Main.onArenaClick();">
+                                <span style="text-decoration:underline;">Arena Combat</span><br>
+                                <br>
+                                Get to fightin'!
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div id="Instructions" class="bordered-panel">
+                <div style="text-align:center;text-decoration:underline;width:100%;">Instructions</div>
+                <img src="Mouse.png" style="width:128px;height:128px;float:left;" alt="Use the mouse" />
+                <div>
+                    <ul>
+                        <li>Use the mouse to move your ship around and left-click to fire</li>
+                        <li>You can also use the joystick-style pad in the lower left to control your ship</li>
+                        <li>Visit the settings via the button in the lower right to modify your control and game settings</li>
+                        <li>ESC to quit the mission</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="arena-player-list" class="FullScreen" style="display:none;">
+        <div id="arena-list-inner">
+            <div class="FullScreen" style="background-color: #000; opacity:0.65; border-radius: 15px;"></div>
+            <table class="FullScreen" style="height:50%;">
+                <thead style="border-bottom">
+                    <tr>
+                        <td style="width:40%;">Player</td>
+                        <td style="width:20%;">Kills</td>
+                        <td style="width:20%;">Deaths</td>
+                        <td style="width:20%;">Latency</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kate</td>
+                        <td>8</td>
+                        <td>5</td>
+                        <td><span id="ping-0">60</span></td>
+                    </tr>
+                    <tr>
+                        <td>Kevin</td>
+                        <td>6</td>
+                        <td>4</td>
+                        <td><span id="ping-1">43</span></td>
+                    </tr>
+                    <tr>
+                        <td>Luke</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td><span id="ping-2">58</span></td>
+                    </tr>
+                    <tr>
+                        <td>Kim</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td><span id="ping-3">104</span></td>
+                    </tr>
+                    <tr>
+                        <td>Taylor</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td><span id="ping-5">48</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="loading-panel" class="FullScreen" style="display:none;">
+        <div class="loading-text">Loading...</div>
+    </div>
+
+    <!-- Displays the game settings -->
+    <div id="SettingsPanel" class="FullScreen" style="display:none; z-index:52;">
+        <div class="Overlay"></div>
+        <div class="InfoPanel">
+            <span class="BigHeaderLabel">Settings</span><br />
+            <div class="SimpleBordered">
+                <input id="Setting_Control_PitchBank" name="Setting_Control_RollBankGroup" type="radio" /> <label for="Setting_Control_PitchBank">Moving the mouse left and right banks your ship, hold the right-mouse button to roll</label><br />
+                <br />
+                <input id="Setting_Control_PitchRoll" name="Setting_Control_RollBankGroup" type="radio" /> <label for="Setting_Control_PitchRoll">Moving the mouse left and right rolls your ship, hold the right-mouse button to bank</label>
+            </div>
+            <br />
+            <div class="SimpleBordered">
+                <input id="Setting_Control_MoveControlStick" name="Setting_Control_MoveControlStickGroup" type="radio" /> <label for="Setting_Control_MoveControlStick">Moving the mouse affects your ship's control stick</label><br />
+                <br />
+                <input id="Setting_Control_MoveShip" name="Setting_Control_MoveControlStickGroup" type="radio" /> <label for="Setting_Control_MoveShip">Moving the mouse directly affects the ship. This is a much simpler control scheme, but makes it much harder to make large turns</label><br />
+                <br />
+                <label for="Setting_TurnRelativeToWindowCenter">Use the mouse position relative to the window's center for control (Thanks dv_):</label> <input id="Setting_TurnRelativeToWindowCenter" type="checkbox" /><br />
+            </div>
+            <br />
+            <label for="Setting_InvertYAxis">Invert Y-Axis of Ship Controls:</label> <input id="Setting_InvertYAxis" type="checkbox" /><br />
+            <br />
+            <label for="Setting_PlaySounds">Play Sounds:</label> <input id="Setting_PlaySounds" type="checkbox" /><br />
+            <br />
+            <input type="button" value="Close" onclick="Main.OnSettingsClosed()" /><br />
+        </div>
+    </div>
+
+    <div id="PortalPanel" class="FullScreen" style="display:none; z-index:152;">
+        <div class="Overlay"></div>
+        <div class="InfoPanel" style="text-align: left;">
+            <div style="text-align: center; font-size: 1.75em;">
+                Select Portal Destination
+            </div>
+            <div style="float:left; width: 25%;">
+                <div class="portal-menu-button">Mission</div>
+                <div class="portal-menu-button">Favorites</div>
+                <div class="portal-menu-button">Friends</div>
+                <div class="portal-menu-button">Star Picker</div>
+                <div class="portal-menu-button">Coordinates</div>
+                <div class="portal-menu-button selected">History</div>
+            </div>
+            <div style="float:left; width:73%; border: 3px solid #FFF; border-radius:5px;">
+                <div id="galaxy-id-0" class="bordered-panel galaxy-button">
+                    <h1>Centaurus A</h1>
+                    <span class="small">Current</span>
+                </div>
+
+                <div id="galaxy-id-1" class="bordered-panel galaxy-button">
+                    <h1>Triangulum Galaxy</h1>
+                    <span class="small">Last Visited: About 2 days ago</span>
+                </div>
+
+                <div id="galaxy-id-2" class="bordered-panel galaxy-button">
+                    <h1>M81</h1>
+                    <span class="small">Last Visited: About 3 weeks ago</span>
+                </div>
+            </div>
+            <div class="cf"></div>
+        </div>
+    </div>
+
+    <div id="Container" style="position: absolute; top: 0px; display:none;">
+        <div id="GameBoard"></div>
+    </div>
+
+    <div id="SettingsButton" onclick="Main.OnSettingsClicked();"></div>
+</body>
+</html>

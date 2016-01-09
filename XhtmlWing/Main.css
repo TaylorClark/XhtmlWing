@@ -1,0 +1,324 @@
+@font-face
+{
+    font-family: Agency-Regular;
+    src: url(fonts/AGENCYR.TTF);
+}
+
+*
+{
+    font-family: arial, sans-serif;
+    color: #FFF;
+}
+
+input
+{
+    color: #000;
+    padding: 2px 2px;
+}
+
+body
+{
+    background: #777;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    overflow: hidden;    
+}
+
+ul li
+{
+    list-style-type: disc;
+    list-style-position: inside;
+    margin-left: 0;
+    padding-left: 0.5em;
+    text-indent: -0.5em;
+    margin-bottom: 0.25em;
+}
+
+#View
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.Overlay
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #33a;
+    font-size: large;
+    opacity: 0.4;
+    color: #fff;
+    padding-top: 175px;
+    text-align: center;
+    z-index: 50;
+}
+
+.Joypad
+{
+    z-index: 20;
+    position: fixed;
+    background-image: url(img/Joypad.png);
+    width: 300px;
+    height: 300px;
+    left: 0px;
+    bottom: 0px;
+    background-size: 300px auto;
+    opacity: 0.4;
+}
+
+.JoypadPos
+{
+    position: absolute;
+    background-image: url(img/JoypadPos.png);
+    width: 100px;
+    height: 100px;
+}
+
+#Crosshairs
+{
+    position: absolute;
+    background-image: url(img/Crosshairs.png);
+    left:50%;
+    top:50%;
+    margin-left:-38px;
+    margin-top:-38px;
+    width: 77px;
+    height: 77px;
+}
+
+.Radar
+{
+    position: absolute;
+    background-image: url(img/Radar.png);
+    width: 200px;
+    height: 200px;
+    top: 0px;
+}
+
+.HPBarBorder
+{
+    width: 25px;
+    height: 200px;
+    z-index: 10;
+    border: 3px solid #DDD;
+    border-radius: 10px;
+    position: absolute;
+    left: 15px;
+    top: 200px;
+}
+
+.HPBar
+{
+    width: 100%;
+    height: 100%;
+    background-color: #0f0;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 0px;
+}
+
+.UILabel
+{
+    color: #fff;
+    position: absolute;
+}
+
+.BigHeaderLabel
+{
+    font-size: 55px;
+    text-align: center;
+    margin: auto auto;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    margin-bottom: 2em;
+}
+
+.InfoPanel
+{
+    margin: auto auto;
+    border: 5px solid #21fbfd;
+    box-shadow: inset 0 0 130px #0e94ed, 0 0 70px #0e94ed;
+    border-radius: 15px;
+    background-color: #000;
+    position: relative;
+    left: 0px;
+    z-index: 51;
+    text-align: center;
+    margin-top: 15px;
+    padding: 1em 1em;
+    width: 500px;
+}
+
+.bordered-panel
+{
+    border: 3px solid #aaa;
+    border-radius: 15px;
+    padding: 10px 10px;
+}
+
+#Instructions
+{
+    margin: 0 auto;
+    width: 450px;
+    text-align: left;    
+}
+
+#SettingsButton
+{
+    width: 49px;
+    height: 47px;
+    background-image: url(img/Settings.png);
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    z-index: 52;
+    cursor: pointer;
+}
+
+.FullScreen
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;    
+}
+
+.SimpleBordered
+{
+    text-align: center;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    margin: 4px 4px;
+    padding: 3px 3px;
+}
+
+.SimpleBordered.button
+{
+    cursor: pointer;
+}
+
+.SimpleBordered.button:hover
+{
+
+    border-color:#FFF;
+    background-color:#333;
+}
+
+
+
+/* From http://nicolasgallagher.com/micro-clearfix-hack/ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+
+.galaxy-button
+{
+    border-radius:10px;
+    cursor:pointer;
+    display:inline-block;
+    width:38%;
+    height:100px;
+    margin:2%;
+    float: left;
+}
+
+.galaxy-button:hover
+{
+    border-color:#FFF;
+    background-color:#333;
+}
+
+.galaxy-button h1
+{
+    font-size:large;
+    font-weight: bold;
+}
+
+.small
+{
+    font-size: small;
+    font-weight: 100;
+}
+
+.portal-menu-button
+{
+    border: 3px solid #aaa;
+    border-radius: 5px;
+    padding: 10px 10px;
+    cursor:pointer;
+}
+
+.portal-menu-button.selected
+{
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+    border-left: 3px solid #fff;
+    border-top: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+    border-right: none;
+    width: 105px;
+    background-color: #000;
+    position: relative;
+}
+
+.loading-text
+{
+    position:absolute;
+    left:50%;
+    width:200px;
+    margin-left:-100px;
+    top:50%;
+    height:100px;
+    margin-top:-50px;
+}
+
+
+#arena-list-inner
+{
+    position: absolute;
+    left:10%;
+    top: 10%;
+    width:80%;
+    height:80%;
+    border-radius: 15px;
+    border:3px solid #FFF;
+}
+
+#arena-player-list table
+{
+    margin:20px;
+}
+
+#Logo
+{
+    background-image:url(img/logo-color.png);
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-position:center center;
+}

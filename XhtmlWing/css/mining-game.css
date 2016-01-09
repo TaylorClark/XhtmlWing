@@ -1,0 +1,74 @@
+﻿.AspectWrapper
+{
+    position:relative;
+    width: 100%;
+    height:55%;
+}
+
+.SixByFiveAspect
+{
+    padding-bottom: 83%;
+}
+
+#Battlefield
+{
+    position: relative;
+    width:100%;
+    height:35%;
+}
+
+#GameBoard
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-image: url(../img/sand-bg.jpg);
+}
+
+table#GameBoardTable
+{
+    border-collapse:collapse;
+    width:100%;
+    height:100%;
+}
+
+table#GameBoardTable th, table#GameBoardTable td
+{
+    border:1px solid black;
+}
+
+table#GameBoardTable td
+{
+    width:16%;
+    height:20%;
+    position:relative;
+}
+
+.GameBoardTile
+{
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    background-repeat:no-repeat;
+    background-size:contain;
+    cursor:pointer;
+    z-index:10;
+}
+
+.GameBoardTileContent
+{
+    width: 100%;
+    height: 100%;
+    background-size: 85% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.GameBoardTilePlaceholder
+{
+    opacity: 0.5;
+}
